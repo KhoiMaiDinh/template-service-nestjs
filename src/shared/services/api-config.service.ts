@@ -31,6 +31,7 @@ export class ApiConfigService {
   get GoongConfig() {
     return {
       apiKey: this.getString('GOONG_API_KEY'),
+      baseUrl: this.getString('GOONG_BASE_URL'),
     };
   }
 

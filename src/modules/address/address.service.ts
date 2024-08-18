@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
+import { CoordinateDto } from './dto/coordinate.dto';
+import { GoongService } from 'src/shared/services/goong.service';
 
 @Injectable()
 export class AddressService {
+  constructor(private goongService: GoongService) {}
   create(createAddressDto: CreateAddressDto) {
     return 'This action adds a new address';
   }
@@ -12,8 +15,10 @@ export class AddressService {
     return `This action returns all address`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
+  async findByCoordinates(coordinateDto: CoordinateDto) {
+    const address =
+      await this.goongService.getAddressesByCoordinate(coordinateDto);
+    return address;
   }
 
   update(id: number, updateAddressDto: UpdateAddressDto) {
