@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ApiConfigService } from './api-config.service';
 import { catchError, map } from 'rxjs';
-import { CoordinateDto } from 'src/modules/address/dto/coordinate.dto';
+import { CoordinateDto } from 'src/modules/address/dto/coordinate.req.dto';
 
 @Injectable()
 export class GoongService {

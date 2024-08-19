@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
-import { CoordinateDto } from './dto/coordinate.dto';
+import { CoordinateDto } from './dto/coordinate.req.dto';
 import { GoongService } from 'src/shared/services/goong.service';
 
 @Injectable()

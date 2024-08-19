@@ -10,7 +10,7 @@ import {
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
-import { CoordinateDto } from './dto/coordinate.dto';
+import { CoordinateDto } from './dto/coordinate.req.dto';
 
 @Controller('address')
 export class AddressController {
