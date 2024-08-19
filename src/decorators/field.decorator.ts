@@ -14,6 +14,7 @@ import { applyDecorators } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { toArray } from 'rxjs';
+import { ToLowerCase, ToUpperCase } from './transform.decorator';
 
 interface IFieldOptions {
   each?: boolean;
@@ -40,7 +41,6 @@ export function NumberField(
   options: Omit<ApiPropertyOptions, 'type'> & INumberFieldOptions = {},
 ): PropertyDecorator {
   const decorators = [Type(() => Number)];
-
   if (options.nullable) {
     decorators.push(IsNullable({ each: options.each }));
   } else {
@@ -97,11 +97,11 @@ export function StringField(
     decorators.push(NotEquals(null, { each: options.each }));
   }
 
-  // if (options.swagger !== false) {
-  //   decorators.push(
-  //     ApiProperty({ type: String, ...options, isArray: options.each }),
-  //   );
-  // }
+  if (options.swagger !== false) {
+    decorators.push(
+      ApiProperty({ type: String, ...options, isArray: options.each }),
+    );
+  }
 
   const minLength = options.minLength || 1;
 
@@ -111,13 +111,13 @@ export function StringField(
     decorators.push(MaxLength(options.maxLength, { each: options.each }));
   }
 
-  // if (options.toLowerCase) {
-  //   decorators.push(ToLowerCase());
-  // }
+  if (options.toLowerCase) {
+    decorators.push(ToLowerCase());
+  }
 
-  // if (options.toUpperCase) {
-  //   decorators.push(ToUpperCase());
-  // }
+  if (options.toUpperCase) {
+    decorators.push(ToUpperCase());
+  }
 
   return applyDecorators(...decorators);
 }
