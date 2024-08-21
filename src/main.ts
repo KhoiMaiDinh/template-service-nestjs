@@ -3,17 +3,34 @@ import {
   HttpStatus,
   UnprocessableEntityException,
   ValidationPipe,
+  VersioningType,
 } from '@nestjs/common';
 
 import { AppModule } from 'src/app.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { ApiConfigService } from 'src/shared/services/api-config.service';
 import { setupSwagger } from 'src/setup-swagger';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
 
 declare const module: any;
+const DEFAULT_VERSION = '1';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new ExpressAdapter(),
+    { cors: true },
+  );
+
+  app.enable('trust proxy');
+  app.setGlobalPrefix('api');
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: DEFAULT_VERSION,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({

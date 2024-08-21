@@ -6,12 +6,12 @@ import { SharedModule } from './shared/shared.module';
 @Module({
   imports: [
     AddressModule,
+    SharedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
       envFilePath: ['.env', '.env.development', '.env.test', '.env.production'],
     }),
-    SharedModule,
   ],
   controllers: [],
   providers: [],
