@@ -14,11 +14,13 @@ import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 declare const module: any;
 const DEFAULT_VERSION = '1';
 
 async function bootstrap() {
+  // initializeTransactionalContext();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),

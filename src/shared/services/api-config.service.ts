@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { isNil } from 'lodash';
+import { Address } from 'src/modules/address/entities/address.entity';
 
 @Injectable()
 export class ApiConfigService {
@@ -25,6 +27,36 @@ export class ApiConfigService {
   get appConfig() {
     return {
       port: this.getString('PORT'),
+    };
+  }
+
+  get postgresConfig(): TypeOrmModuleOptions {
+    const entities = [
+      __dirname + '/../../modules/**/entities/*.entity{.ts,.js}',
+      __dirname + '/../../modules/**/*.entity{.ts,.js}',
+      __dirname + '/../../modules/**/**/*.entity{.ts,.js}',
+      __dirname + '/../../modules/**/*.view-entity{.ts,.js}',
+      Address,
+    ];
+    const migrations = [__dirname + '/../../database/migrations/*{.ts,.js}'];
+
+    console.log(__dirname);
+
+    return {
+      entities,
+      migrations,
+      keepConnectionAlive: !this.isTest,
+      dropSchema: this.isTest,
+      type: 'postgres',
+      name: 'default',
+      host: this.getString('DB_HOST'),
+      port: this.getNumber('DB_PORT'),
+      username: this.getString('DB_USERNAME'),
+      password: this.getString('DB_PASSWORD'),
+      database: this.getString('DB_DATABASE'),
+      migrationsRun: true,
+      logging: this.getBoolean('ENABLE_ORM_LOGS'),
+      // namingStrategy: new SnakeNamingStrategy(),
     };
   }
 

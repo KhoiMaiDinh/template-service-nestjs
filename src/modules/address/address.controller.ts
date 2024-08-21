@@ -19,8 +19,11 @@ export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
-  create(@Body() createAddressDto: CreateAddressDto) {
-    return this.addressService.create(createAddressDto);
+  async create(@Body() createAddressDto: CreateAddressDto) {
+    return await this.addressService.create({
+      latitude: createAddressDto.latitude,
+      longitude: createAddressDto.longitude,
+    });
   }
 
   @Get()
